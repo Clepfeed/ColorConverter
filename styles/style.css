@@ -63,7 +63,6 @@ input[type="color"]
     height: 40vh;
     border: none;
     outline: none;
-    
 }
 input[type="color"]:hover
 {
@@ -85,4 +84,53 @@ a
     font-size: calc(0.7vh + 0.35vw);
     color: grey;
     margin-top: 3vh;
+}
+
+@media (max-width: 1000px)
+{
+    input[type = "range"]
+    {
+        width: 80vw;
+    }
+    input[type="color"]
+    {
+        width: 80vw;
+    }
+    h2
+    {
+        width: 80vw;
+    }
+    .content_div > div
+    {
+        width: 80vw;
+    }
+    #rounding
+    {
+        width: 10vw;
+    }
+}
+
+
+@media (max-width: 1500px)
+{
+    input[type = "range"]
+    {
+        width: 50vw;
+    }
+    input[type="color"]
+    {
+        width: 50vw;
+    }
+    h2
+    {
+        width: 50vw;
+    }
+    .content_div > div
+    {
+        width: 50vw;
+    }
+    #rounding
+    {
+        width: 10vw;
+    }
 }
