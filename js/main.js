@@ -7,6 +7,22 @@ let CMYK_v;
 
 // RGB, XYZ, CMYK, rounding
 
+let sliders = document.getElementsByClassName("sliders");
+
+slider_r.addEventListener('input', () => {
+    RGB.value = slider_r.value + RGB.value.substring(RGB.value.indexOf(","));
+    RGB_Changed();
+});
+slider_g.addEventListener('input', () => {
+    RGB.value = RGB.value.substring(0, RGB.value.indexOf(",") + 2) + slider_g.value + RGB.value.substring(RGB.value.lastIndexOf(","));
+    RGB_Changed();
+});
+slider_b.addEventListener('input', () => {
+    RGB.value = RGB.value.substring(0, RGB.value.lastIndexOf(",") + 2) + slider_b.value;
+    RGB_Changed();
+});
+
+
 // изменения округления
 rounding.addEventListener('keyup', () => {
     RGB_Changed();
@@ -41,6 +57,7 @@ function RGB_Changed()
     rgbToHex();
     rgbToXYZ();
     rgbToCMYK();
+    rgbToSliders();
 } 
 
 // поменять все остальное относительно HEX
@@ -58,6 +75,7 @@ function XYZ_Changed()
     XYZToRgb();
     rgbToCMYK();
     rgbToHex();
+    rgbToSliders();
 }
 
 function CMYK_Changed()
@@ -66,6 +84,7 @@ function CMYK_Changed()
     CMYKToRgb();
     rgbToXYZ();
     rgbToHex();
+    rgbToSliders();
 }
 
 // конвентор систем счисления
@@ -171,6 +190,16 @@ function rgbToCMYK()
     CMYK.value = CMYK_v;
 }
 
+function rgbToSliders() 
+{
+    let temp = RGB_v + ",";
+    for(let i = 0; i < 3; i++) 
+    {
+        sliders[i].value = parseInt(temp.substring(0, temp.indexOf(",")));
+        temp = temp.substring(temp.indexOf(",") + 1);
+    }
+}
+
 function XYZToRgb()
 {
     let temp = XYZ_v + ",";
@@ -232,3 +261,4 @@ hexToRgb();
 rgbToHex();
 rgbToXYZ();
 rgbToCMYK();
+rgbToSliders();
