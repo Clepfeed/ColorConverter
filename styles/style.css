@@ -1,25 +1,3 @@
-input[type="color"]
-{
-    width: 20vw;
-    height: 40vh;
-    border: none;
-    outline: none;
-    
-}
-input[type="color"]:hover
-{
-    cursor: pointer;
-}
-
-input[type = "text"]
-{
-    width: 80%;
-}
-input[type = "range"]
-{
-    width: 20vw;
-}
-
 body
 {
     margin: 0;
@@ -53,19 +31,58 @@ body > div
     align-items: center;
 }
 
+p, h2, a 
+{
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+}
 
 #rounding
 {
     width: 3vw;
 }
+
 h2
 {
     font-size: calc(1vh + 0.7vw);
     margin: 0;
     width: 20vw;
     text-align: center;
+    font-weight: 400;
 }
+
 p
 {
     margin: 0;
+}
+
+input[type="color"]
+{
+    width: 20vw;
+    height: 40vh;
+    border: none;
+    outline: none;
+    
+}
+input[type="color"]:hover
+{
+    cursor: pointer;
+}
+
+input[type = "text"]
+{
+    width: 80%;
+}
+input[type = "range"]
+{
+    width: 20vw;
+}
+
+a
+{
+    text-decoration: none;
+    font-size: calc(0.7vh + 0.35vw);
+    color: grey;
+    margin-top: 3vh;
 }
