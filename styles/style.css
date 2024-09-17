@@ -15,6 +15,13 @@ body > div
     justify-content: space-around;
 }
 
+.slider_div
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 20vw;
+}
 .content_div
 {
     height: 30%;
@@ -38,9 +45,11 @@ p, h2, a
     font-style: normal;
 }
 
-#rounding
+input[type="number"]
 {
     width: 3vw;
+    /* width: 80%; */
+    /* padding-right: 50%; */
 }
 
 h2
@@ -75,7 +84,7 @@ input[type = "text"]
 }
 input[type = "range"]
 {
-    width: 20vw;
+    width: 18vw;
 }
 
 a
@@ -90,7 +99,7 @@ a
 {
     input[type = "range"]
     {
-        width: 80vw;
+        width: 78vw;
     }
     input[type="color"]
     {
@@ -107,6 +116,10 @@ a
     #rounding
     {
         width: 10vw;
+    }
+    .slider_div
+    {
+        width: 80vw;
     }
 }
 
@@ -115,7 +128,7 @@ a
 {
     input[type = "range"]
     {
-        width: 50vw;
+        width: 48vw;
     }
     input[type="color"]
     {
@@ -132,5 +145,9 @@ a
     #rounding
     {
         width: 10vw;
+    }
+    .slider_div
+    {
+        width: 50vw;
     }
 }

@@ -8,6 +8,7 @@ let CMYK_v;
 // RGB, XYZ, CMYK, rounding
 
 let sliders = document.getElementsByClassName("sliders");
+let wrongDecimal = false;
 
 slider_r.addEventListener('input', () => {
     RGB.value = slider_r.value + RGB.value.substring(RGB.value.indexOf(","));
@@ -96,11 +97,8 @@ function convertFromBaseToBase(number, from, to)
         info.textContent = "Некорректный ввод";
         info.style.color = "red";
         console.log(info);
+        wrongDecimal = true;
         return 0;
-    }
-    else
-    {
-        info.textContent = "Измените поле или нажмите на цветной прямоугольник";
     }
     if (isNaN(decimal)) 
     {
@@ -109,7 +107,6 @@ function convertFromBaseToBase(number, from, to)
     }
     return decimal.toString(to);
 }
-
 function hexToRgb()
 {
     RGB_v = `${convertFromBaseToBase(HEX.substring(0, 2), 16, 10)}, ${convertFromBaseToBase(HEX.substring(2, 4), 16, 10)}, ${convertFromBaseToBase(HEX.substr(4), 16, 10)}`;
@@ -118,6 +115,7 @@ function hexToRgb()
 
 function rgbToHex()
 {
+    wrongDecimal = false;
     HEX = "#";
     let temp = RGB_v + ",";
     for (let i = 0; i < 3; i++) 
@@ -131,6 +129,10 @@ function rgbToHex()
     }
     colorPicker.value = HEX;
     info.style.color = HEX;
+    if (!wrongDecimal)
+    {
+        info.textContent = "Измените поле или нажмите на цветной прямоугольник";
+    }
 }
 
 function rgbToXYZ()

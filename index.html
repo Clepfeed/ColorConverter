@@ -12,7 +12,7 @@
     </head>
     <body>
         <div>
-            <input type="color" id="colorSpace" name="head" value="#a331cc"    />
+            <input type="color" id="colorSpace" name="head" value="#a331cc"/>
             <h2 id = "info">Измените поле или нажмите на цветной прямоугольник</h2>
             <div class="content_div">
                 <div>
@@ -28,10 +28,23 @@
                     <input type="text" id = "CMYK">
                 </div>
             </div>
-            <input class="sliders" type="range" id="slider_r" min="0" max="255" value="0">
-            <input class="sliders" type="range" id="slider_g" min="0" max="255" value="0">
-            <input class="sliders" type="range" id="slider_b" min="0" max="255" value="0">
-            <input type="number" id="rounding" value="5" min="0">
+            <div class="slider_div">
+                <p>R:</p>
+                <input class="sliders" type="range" id="slider_r" min="0" max="255" value="0">
+            </div>
+            <div class="slider_div">
+                <p>G:</p>
+                <input class="sliders" type="range" id="slider_g" min="0" max="255" value="0">
+            </div>
+            <div class="slider_div">
+                <p>B:</p>
+                <input class="sliders" type="range" id="slider_b" min="0" max="255" value="0">
+            </div>
+            <div class="slider_div">
+                <p>Round:</p>
+                <input type="number" id="rounding" value="5" min="0">
+            </div>
+            
             <a href="https://github.com/Clepfeed/ColorConverter">gitHub</a>
         </div>
         
