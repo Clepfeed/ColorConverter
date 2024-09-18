@@ -73,36 +73,34 @@ function HEX_Changed()
 function XYZ_Changed()
 {
     XYZ_v = XYZ.value;
-    XYZToRgb();
-    rgbToCMYK();
-    rgbToHex();
-    rgbToSliders();
+    if(XYZToRgb() == 0)
+    {
+        rgbToCMYK();
+        rgbToHex();
+        rgbToSliders();
+    }
 }
 
 function CMYK_Changed()
 {
     CMYK_v = CMYK.value;
-    CMYKToRgb();
-    rgbToXYZ();
-    rgbToHex();
-    rgbToSliders();
+    if(CMYKToRgb() == 0)
+    {
+        rgbToXYZ();
+        rgbToHex();
+        rgbToSliders();
+    }
 }
 
 // конвентор систем счисления
 function convertFromBaseToBase(number, from, to) 
 {
     let decimal = parseInt(number, from);
-    if (decimal > 255) 
+    if (decimal > 255 || decimal < 0 || isNaN(decimal)) 
     {
         info.textContent = "Некорректный ввод";
         info.style.color = "red";
-        console.log(info);
         wrongDecimal = true;
-        return 0;
-    }
-    if (isNaN(decimal)) 
-    {
-        console.log("INCORRECT VALUE");
         return 0;
     }
     return decimal.toString(to);
@@ -212,6 +210,22 @@ function XYZToRgb()
         temp = temp.substring(temp.indexOf(",") + 1);
     }
     let newRgb = [];
+
+    let wrongDia = false;
+    for(i in XYZ_parced)
+    {
+        if(XYZ_parced[i] < 0 || XYZ_parced[i] > 1 || isNaN(XYZ_parced[i]))
+        {
+            wrongDia = true;
+        }
+    }
+    if (wrongDia)
+    {
+        info.textContent = "Некорректный ввод";
+        info.style.color = "red";
+        return 1;
+    }
+   
     newRgb.push(XYZ_parced[0] * 3.2406 + XYZ_parced[1] * -1.5372 + XYZ_parced[2] * -0.4986);
     newRgb.push(XYZ_parced[0] * -0.9689 + XYZ_parced[1] * 1.8758 + XYZ_parced[2] * 0.0415);
     newRgb.push(XYZ_parced[0] * 0.0557 + XYZ_parced[1] * -0.2040 + XYZ_parced[2] * 1.0570);
@@ -238,6 +252,7 @@ function XYZToRgb()
     }
 
     RGB.value = RGB_v;
+    return 0;
 }
 
 function CMYKToRgb()
@@ -250,6 +265,21 @@ function CMYKToRgb()
         temp = temp.substring(temp.indexOf(",") + 1);
     }
 
+    let wrongDia = false;
+    for(i in CMYK_parced)
+    {
+        if(CMYK_parced[i] < 0 || CMYK_parced[i] > 1 || isNaN(CMYK_parced[i]))
+        {
+            wrongDia = true;
+        }
+    }
+    if(wrongDia)
+    {
+        info.textContent = "Некорректный ввод";
+        info.style.color = "red";
+        return 1;
+    } 
+
     RGB_v = "";
     for(let i = 0; i < CMYK_parced.length - 2; i++)
     {
@@ -257,6 +287,7 @@ function CMYKToRgb()
     }
     RGB_v += `${Math.round(255 * (1 - CMYK_parced[2]) * (1 - CMYK_parced[3]))}`;
     RGB.value = RGB_v;
+    return 0;
 }
 
 hexToRgb();
