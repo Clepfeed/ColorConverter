@@ -1,28 +1,72 @@
 let colorPicker = document.getElementById("colorSpace");
-
 let HEX = colorPicker.value.substring(1);
-let RGB_v;
-let XYZ_v;
-let CMYK_v;
 
 // RGB, XYZ, CMYK, rounding
 
-let sliders = document.getElementsByClassName("sliders");
 let wrongDecimal = false;
 
+RGB_change_button.addEventListener('click', () => {
+    RGB_Sliders_Div.style.display = "block";
+    XYZ_Sliders_Div.style.display = "none";
+    CMYK_Sliders_Div.style.display = "none";
+});
+XYZ_change_button.addEventListener('click', () => {
+    RGB_Sliders_Div.style.display = "none";
+    XYZ_Sliders_Div.style.display = "block";
+    CMYK_Sliders_Div.style.display = "none";
+});
+CMYK_change_button.addEventListener('click', () => {
+    RGB_Sliders_Div.style.display = "none";
+    XYZ_Sliders_Div.style.display = "none";
+    CMYK_Sliders_Div.style.display = "block";
+});
+
+
+// rgb sliders
 slider_r.addEventListener('input', () => {
-    RGB.value = slider_r.value + RGB.value.substring(RGB.value.indexOf(","));
+    RGB_R.value = slider_r.value;
     RGB_Changed();
 });
 slider_g.addEventListener('input', () => {
-    RGB.value = RGB.value.substring(0, RGB.value.indexOf(",") + 2) + slider_g.value + RGB.value.substring(RGB.value.lastIndexOf(","));
+    RGB_G.value = slider_g.value;
     RGB_Changed();
 });
 slider_b.addEventListener('input', () => {
-    RGB.value = RGB.value.substring(0, RGB.value.lastIndexOf(",") + 2) + slider_b.value;
+    RGB_B.value = slider_b.value;
     RGB_Changed();
 });
 
+// xyz sliders
+slider_x.addEventListener('input', () => {
+    XYZ_X.value = slider_x.value / 100;
+    XYZ_Changed();
+});
+slider_y.addEventListener('input', () => {
+    XYZ_Y.value = slider_y.value / 100;
+    XYZ_Changed();
+});
+slider_z.addEventListener('input', () => {
+    XYZ_Z.value = slider_z.value / 100;
+    XYZ_Changed();
+});
+
+// cmyk sliders
+slider_c.addEventListener('input', () => {
+    CMYK_C.value = slider_c.value / 100;
+    CMYK_Changed();
+});
+slider_m.addEventListener('input', () => {
+    CMYK_M.value = slider_m.value / 100;
+    CMYK_Changed();
+});
+slider_y_cmyk.addEventListener('input', () => {
+    CMYK_Y.value = slider_y_cmyk.value / 100;
+    CMYK_Changed();
+});
+slider_k.addEventListener('input', () => {
+    CMYK_K.value = slider_k.value / 100;
+    CMYK_Changed();
+});
 
 // изменения округления
 rounding.addEventListener('keyup', () => {
@@ -33,17 +77,30 @@ rounding.addEventListener('input', () => {
 });
 
 // изменение поля RGB
-RGB.addEventListener('keyup', function(event) {
-    RGB_Changed();
-}); 
 
-XYZ.addEventListener('keyup', function(event) {
-    XYZ_Changed();
-}); 
+let RGB_inputs = document.querySelectorAll(".RGB_Input");
+RGB_inputs.forEach(input => {
+    input.addEventListener('keyup', (event) => {
+        RGB_Changed();
+    });
+});
 
-CMYK.addEventListener('keyup', function(event) {
-    CMYK_Changed();
-}); 
+
+let XYZ_inputs = document.querySelectorAll(".XYZ_Input");
+XYZ_inputs.forEach(input => {
+    input.addEventListener('keyup', (event) => {
+        XYZ_Changed();
+    });
+});
+
+
+let CMYK_inputs = document.querySelectorAll(".CMYK_Input");
+CMYK_inputs.forEach(input => {
+    input.addEventListener('keyup', (event) => {
+        CMYK_Changed();
+    });
+});
+
 
 // изменение colorPicker
 colorPicker.addEventListener('focus', function(event) {
@@ -54,11 +111,12 @@ colorPicker.addEventListener('focus', function(event) {
 // поменять все остальное относительно RGB
 function RGB_Changed()
 {
-    RGB_v = RGB.value;
     rgbToHex();
     rgbToXYZ();
     rgbToCMYK();
     rgbToSliders();
+    XYZToSliders();
+    CMYKToSliders();
 } 
 
 // поменять все остальное относительно HEX
@@ -72,23 +130,24 @@ function HEX_Changed()
 // поменять все остальное относительно XYZ
 function XYZ_Changed()
 {
-    XYZ_v = XYZ.value;
     if(XYZToRgb() == 0)
     {
         rgbToCMYK();
         rgbToHex();
         rgbToSliders();
+        XYZToSliders();
+        CMYKToSliders();
     }
 }
 
 function CMYK_Changed()
 {
-    CMYK_v = CMYK.value;
     if(CMYKToRgb() == 0)
     {
         rgbToXYZ();
         rgbToHex();
         rgbToSliders();
+        CMYKToSliders();
     }
 }
 
@@ -107,23 +166,23 @@ function convertFromBaseToBase(number, from, to)
 }
 function hexToRgb()
 {
-    RGB_v = `${convertFromBaseToBase(HEX.substring(0, 2), 16, 10)}, ${convertFromBaseToBase(HEX.substring(2, 4), 16, 10)}, ${convertFromBaseToBase(HEX.substr(4), 16, 10)}`;
-    RGB.value = RGB_v;
+    RGB_R.value = convertFromBaseToBase(HEX.substring(0, 2), 16, 10);
+    RGB_G.value = convertFromBaseToBase(HEX.substring(2, 4), 16, 10);
+    RGB_B.value = convertFromBaseToBase(HEX.substr(4), 16, 10);
 }
 
 function rgbToHex()
 {
     wrongDecimal = false;
+    let rgb_v = [RGB_R.value, RGB_G.value, RGB_B.value];
     HEX = "#";
-    let temp = RGB_v + ",";
     for (let i = 0; i < 3; i++) 
     {
-        if (convertFromBaseToBase(temp.substring(0, temp.indexOf(",")), 10, 16).length < 2) 
+        if (convertFromBaseToBase(rgb_v[i], 10, 16).length < 2) 
         {
             HEX += "0";
         }
-        HEX += convertFromBaseToBase(temp.substring(0, temp.indexOf(",")), 10, 16);
-        temp = temp.substring(temp.indexOf(",") + 1);
+        HEX += convertFromBaseToBase(rgb_v[i], 10, 16);
     }
     colorPicker.value = HEX;
     info.style.color = HEX;
@@ -135,41 +194,27 @@ function rgbToHex()
 
 function rgbToXYZ()
 {
-    let temp = RGB_v + ",";
-    let rgb_parced = [];
-    for (let i = 0; i < 3; i++) 
-    {
-        rgb_parced.push(parseInt(temp.substring(0, temp.indexOf(","))));
-        temp = temp.substring(temp.indexOf(",") + 1);
-    }
+    let rgb_parced = [RGB_R.value, RGB_G.value, RGB_B.value];
+    let temp = 0;
     for(i in rgb_parced)
     {
         rgb_parced[i] /= 255;
         rgb_parced[i] = (rgb_parced[i]<= 0.04045) ? (rgb_parced[i]/ 12.92) : Math.pow((rgb_parced[i]+ 0.055) / 1.055, 2.4);
     }
     
-    XYZ_v = "";
     temp = rgb_parced[0] * 0.4124564 + rgb_parced[1] * 0.3575761 + rgb_parced[2] * 0.1804375;
-    XYZ_v += temp.toFixed(parseInt(rounding.value)).toString() + ", ";
+    XYZ_X.value = temp.toFixed(parseInt(rounding.value));
 
     temp = rgb_parced[0] * 0.2126729 + rgb_parced[1] * 0.7151522 + rgb_parced[2] * 0.0721750;
-    XYZ_v += temp.toFixed(parseInt(rounding.value)).toString() + ", ";
+    XYZ_Y.value = temp.toFixed(parseInt(rounding.value));
 
     temp = rgb_parced[0] * 0.0193339 + rgb_parced[1] * 0.1191920 + rgb_parced[2] * 0.9503041;
-    XYZ_v += temp.toFixed(parseInt(rounding.value)).toString();
-
-    XYZ.value = XYZ_v;    
+    XYZ_Z.value = temp.toFixed(parseInt(rounding.value));  
 }
 
 function rgbToCMYK()
 {
-    let temp = RGB_v + ",";
-    let rgb_parced = [];
-    for(let i = 0; i < 3; i++) 
-    {
-        rgb_parced.push(parseInt(temp.substring(0, temp.indexOf(","))));
-        temp = temp.substring(temp.indexOf(",") + 1);
-    }
+    let rgb_parced = [parseFloat(RGB_R.value), parseFloat(RGB_G.value), parseFloat(RGB_B.value)];
     for(i in rgb_parced)
     {
         rgb_parced[i] /= 255;
@@ -177,38 +222,47 @@ function rgbToCMYK()
 
     let K = 1 - Math.max(...rgb_parced);
 
-    if(K == 1) CMYK_v = "0, 0, 0, 1";
+    if(K == 1)
+    {
+        CMYK_C = 0;
+        CMYK_M = 0;
+        CMYK_Y = 0;
+        CMYK_K = 1;
+    }
     else
     {
-        CMYK_v = "";
-        CMYK_v += ((1 - rgb_parced[0] - K) / (1 - K)).toFixed(parseInt(rounding.value)).toString() + ", ";
-        CMYK_v += ((1 - rgb_parced[1] - K) / (1 - K)).toFixed(parseInt(rounding.value)).toString() + ", ";
-        CMYK_v += ((1 - rgb_parced[2] - K) / (1 - K)).toFixed(parseInt(rounding.value)).toString() + ", ";
-        CMYK_v += K.toFixed(parseInt(rounding.value)).toString();
+        CMYK_C.value = ((1 - rgb_parced[0] - K) / (1 - K)).toFixed(parseInt(rounding.value));
+        CMYK_M.value = ((1 - rgb_parced[1] - K) / (1 - K)).toFixed(parseInt(rounding.value));
+        CMYK_Y.value = ((1 - rgb_parced[2] - K) / (1 - K)).toFixed(parseInt(rounding.value));
+        CMYK_K.value = K.toFixed(parseInt(rounding.value));
     }
-
-    CMYK.value = CMYK_v;
 }
 
 function rgbToSliders() 
 {
-    let temp = RGB_v + ",";
-    for(let i = 0; i < 3; i++) 
-    {
-        sliders[i].value = parseInt(temp.substring(0, temp.indexOf(",")));
-        temp = temp.substring(temp.indexOf(",") + 1);
-    }
+    slider_r.value = RGB_R.value;
+    slider_g.value = RGB_G.value;
+    slider_b.value = RGB_B.value;
+}
+
+function XYZToSliders() 
+{
+    slider_x.value = XYZ_X.value * 100;
+    slider_y.value = XYZ_Y.value * 100;
+    slider_z.value = XYZ_Z.value * 100;
+}
+
+function CMYKToSliders()
+{
+    slider_c.value = CMYK_C.value * 100;
+    slider_m.value = CMYK_M.value * 100;
+    slider_y_cmyk.value = CMYK_Y.value * 100;
+    slider_k.value = CMYK_K.value * 100;
 }
 
 function XYZToRgb()
 {
-    let temp = XYZ_v + ",";
-    let XYZ_parced = [];
-    for(let i = 0; i < 3; i++) 
-    {
-        XYZ_parced.push(parseFloat(temp.substring(0, temp.indexOf(","))));
-        temp = temp.substring(temp.indexOf(",") + 1);
-    }
+    let XYZ_parced = [parseFloat(XYZ_X.value), parseFloat(XYZ_Y.value), parseFloat(XYZ_Z.value)];
     let newRgb = [];
 
     let wrongDia = false;
@@ -244,26 +298,20 @@ function XYZToRgb()
         newRgb[i] = Math.round(Math.max(0, Math.min(1, newRgb[i])) * 255);
     }
 
-    RGB_v = "";
-    for(let i in newRgb)
-    {
-        if(i != newRgb.length - 1) RGB_v += newRgb[i] + ", ";
-        else RGB_v += newRgb[i];
-    }
+    RGB_R.value = newRgb[0];
+    RGB_G.value = newRgb[1];
+    RGB_B.value = newRgb[2];
 
-    RGB.value = RGB_v;
     return 0;
 }
 
 function CMYKToRgb()
 {
-    let temp = CMYK_v + ",";
-    let CMYK_parced = [];
-    for(let i = 0; i < 4; i++) 
-    {
-        CMYK_parced.push(parseFloat(temp.substring(0, temp.indexOf(","))));
-        temp = temp.substring(temp.indexOf(",") + 1);
-    }
+    let CMYK_parced = [
+        parseFloat(CMYK_C.value),
+        parseFloat(CMYK_M.value),
+        parseFloat(CMYK_Y.value),
+        parseFloat(CMYK_K.value)];
 
     let wrongDia = false;
     for(i in CMYK_parced)
@@ -280,13 +328,10 @@ function CMYKToRgb()
         return 1;
     } 
 
-    RGB_v = "";
-    for(let i = 0; i < CMYK_parced.length - 2; i++)
-    {
-        RGB_v += `${Math.round(255 * (1 - CMYK_parced[i]) * (1 - CMYK_parced[3]))}, `;
-    }
-    RGB_v += `${Math.round(255 * (1 - CMYK_parced[2]) * (1 - CMYK_parced[3]))}`;
-    RGB.value = RGB_v;
+    RGB_R.value = Math.round(255 * (1 - CMYK_parced[0]) * (1 - CMYK_parced[3]));
+    RGB_G.value = Math.round(255 * (1 - CMYK_parced[1]) * (1 - CMYK_parced[3]));
+    RGB_B.value = Math.round(255 * (1 - CMYK_parced[2]) * (1 - CMYK_parced[3]));
+
     return 0;
 }
 

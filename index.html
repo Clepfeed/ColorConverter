@@ -17,29 +17,80 @@
             <div class="content_div">
                 <div>
                     <p>RGB:</p>
-                    <input type="text" id = "RGB">
+                    <input type="text" id = "RGB_R" class="RGB_Input">
+                    <input type="text" id = "RGB_G" class="RGB_Input">
+                    <input type="text" id = "RGB_B" class="RGB_Input">
                 </div>
                 <div>
                     <p>XYZ:</p>
-                    <input type="text" id = "XYZ">
+                    <input type="text" id = "XYZ_X" class="XYZ_Input">
+                    <input type="text" id = "XYZ_Y" class="XYZ_Input">
+                    <input type="text" id = "XYZ_Z" class="XYZ_Input">
                 </div>
-                <div>
+                <div class = "CMYK_div">
                     <p>CMYK:</p>
-                    <input type="text" id = "CMYK">
+                    <input type="text" id = "CMYK_C" class="CMYK_Input">
+                    <input type="text" id = "CMYK_M" class="CMYK_Input">
+                    <input type="text" id = "CMYK_Y" class="CMYK_Input">
+                    <input type="text" id = "CMYK_K" class="CMYK_Input">
                 </div>
             </div>
-            <div class="slider_div">
-                <p>R:</p>
-                <input class="sliders" type="range" id="slider_r" min="0" max="255" value="0">
+
+            <div class="button_div">
+                <button id = "RGB_change_button">RGB</button>
+                <button id = "XYZ_change_button">XYZ</button>
+                <button id = "CMYK_change_button">CMYK</button>
             </div>
-            <div class="slider_div">
-                <p>G:</p>
-                <input class="sliders" type="range" id="slider_g" min="0" max="255" value="0">
+
+            <div id = "RGB_Sliders_Div" class="div_of_sliders">
+                <div class="slider_div">
+                    <p>R:</p>
+                    <input class="sliders" type="range" id="slider_r" min="0" max="255" value="0">
+                </div>
+                <div class="slider_div">
+                    <p>G:</p>
+                    <input class="sliders" type="range" id="slider_g" min="0" max="255" value="0">
+                </div>
+                <div class="slider_div">
+                    <p>B:</p>
+                    <input class="sliders" type="range" id="slider_b" min="0" max="255" value="0">
+                </div>
             </div>
-            <div class="slider_div">
-                <p>B:</p>
-                <input class="sliders" type="range" id="slider_b" min="0" max="255" value="0">
+
+            <div id = "XYZ_Sliders_Div" class="div_of_sliders">
+                <div class="slider_div">
+                    <p>X:</p>
+                    <input class="sliders" type="range" id="slider_x" min="0" max="100" value="0">
+                </div>
+                <div class="slider_div">
+                    <p>Y:</p>
+                    <input class="sliders" type="range" id="slider_y" min="0" max="100" value="0">
+                </div>
+                <div class="slider_div">
+                    <p>Z:</p>
+                    <input class="sliders" type="range" id="slider_z" min="0" max="100" value="0">
+                </div>
             </div>
+
+            <div id = "CMYK_Sliders_Div" class="div_of_sliders">
+                <div class="slider_div">
+                    <p>C:</p>
+                    <input class="sliders" type="range" id="slider_c" min="0" max="100" value="0">
+                </div>
+                <div class="slider_div">
+                    <p>M:</p>
+                    <input class="sliders" type="range" id="slider_m" min="0" max="100" value="0">
+                </div>
+                <div class="slider_div">
+                    <p>Y:</p>
+                    <input class="sliders" type="range" id="slider_y_cmyk" min="0" max="100" value="0">
+                </div>
+                <div class="slider_div">
+                    <p>C:</p>
+                    <input class="sliders" type="range" id="slider_k" min="0" max="100" value="0">
+                </div>
+            </div>
+
             <div class="slider_div">
                 <p>Round:</p>
                 <input type="number" id="rounding" value="5" min="0">
